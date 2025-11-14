@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guinness Bet Tracker - History</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!-- Supabase JavaScript Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="index.html" class="nav-link">Active Bets</a>
+        <a href="add.html" class="nav-link landlord-only">Add Bet</a>
+        <a href="history.html" class="nav-link active">History</a>
+        <a href="login.html" class="nav-link" id="landlordModeLink">Landlord Mode</a>
+        <button id="logoutBtn" class="nav-link" onclick="logout()" style="background: none; border: none; cursor: pointer; color: var(--toucan-red);">Logout</button>
+    </nav>
+
+    <!-- Header -->
+    <header class="header">
+        <h1 class="title">🍺 Bet History</h1>
+        <p class="subtitle">Past predictions and pints</p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Summary Stats -->
+        <div id="summaryStats" class="bet-card" style="margin-bottom: 2rem;">
+            <h2 style="font-family: var(--font-display); font-size: 1.5rem; margin-bottom: 1rem; color: var(--cream-light);">
+                Outstanding Pints
+            </h2>
+            <div class="bet-details">
+                <div class="bet-detail">
+                    <span class="bet-label">Dylan Owes</span>
+                    <span class="bet-value" id="dylanOwes">0 🍺</span>
+                </div>
+                <div class="bet-detail">
+                    <span class="bet-label">Poppet Owes</span>
+                    <span class="bet-value" id="poppetOwes">0 🍺</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Resolved Bets List -->
+        <div id="resolvedBetsList" class="bets-list">
+            <!-- Bet cards will be injected here by JavaScript -->
+        </div>
+
+        <div id="emptyStateHistory" class="empty-state" style="display: none;">
+            <p>No resolved bets yet.</p>
+            <p>Check back once some bets are settled!</p>
+            <a href="index.html" class="btn btn-primary">View Active Bets</a>
+        </div>
+    </main>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Record Payment 🍺</h2>
+                <p class="modal-subtitle" id="modalBetCondition"></p>
+            </div>
+
+            <div class="payment-info">
+                <div class="payment-info-row">
+                    <span class="payment-info-label">Total Owed:</span>
+                    <span class="payment-info-value" id="modalPintsOwed"></span>
+                </div>
+                <div class="payment-info-row">
+                    <span class="payment-info-label">Paid So Far:</span>
+                    <span class="payment-info-value" id="modalPintsPaid"></span>
+                </div>
+                <div class="payment-info-row">
+                    <span class="payment-info-label">Remaining:</span>
+                    <span class="payment-info-value" id="modalPintsRemaining"></span>
+                </div>
+            </div>
+
+            <div class="payment-counter">
+                <p style="color: var(--cream); font-size: 0.9rem; margin-bottom: 0.5rem;">Payment Amount</p>
+                <div class="payment-amount" id="paymentAmount">0.0 🍺</div>
+            </div>
+
+            <div class="payment-buttons">
+                <button class="payment-button" onclick="adjustPayment(0.5)">+0.5</button>
+                <button class="payment-button" onclick="adjustPayment(1.0)">+1.0</button>
+                <button class="payment-button" onclick="adjustPayment(2.0)">+2.0</button>
+            </div>
+
+            <div class="payment-buttons" style="grid-template-columns: 1fr 1fr;">
+                <button class="payment-button" onclick="adjustPayment(-0.5)">-0.5</button>
+                <button class="payment-button" onclick="resetPayment()">Reset</button>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-primary" style="flex: 1;" onclick="confirmPayment()">
+                    Record Payment
+                </button>
+                <button class="btn btn-secondary" style="flex: 1;" onclick="closePaymentModal()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // Calculate and display summary stats
+        document.addEventListener('DOMContentLoaded', async function() {
+            const resolvedBets = await loadResolvedBets();
+
+            let dylanOwes = 0;
+            let poppetOwes = 0;
+
+            resolvedBets.forEach(bet => {
+                const remaining = bet.pints_owed - bet.pints_paid;
+                if (remaining > 0) {
+                    if (bet.winner === 'Poppet') {
+                        dylanOwes += remaining;
+                    } else if (bet.winner === 'Dylan') {
+                        poppetOwes += remaining;
+                    }
+                }
+            });
+
+            document.getElementById('dylanOwes').textContent = `${dylanOwes.toFixed(1)} 🍺`;
+            document.getElementById('poppetOwes').textContent = `${poppetOwes.toFixed(1)} 🍺`;
+        });
+    </script>
+</body>
+</html>

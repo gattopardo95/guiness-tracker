@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guinness Bet Tracker - Add Bet</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!-- Supabase JavaScript Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="index.html" class="nav-link">Active Bets</a>
+        <a href="add.html" class="nav-link active landlord-only">Add Bet</a>
+        <a href="history.html" class="nav-link">History</a>
+        <a href="login.html" class="nav-link" id="landlordModeLink">Landlord Mode</a>
+        <button id="logoutBtn" class="nav-link" onclick="logout()" style="background: none; border: none; cursor: pointer; color: var(--toucan-red);">Logout</button>
+    </nav>
+
+    <!-- Header -->
+    <header class="header">
+        <h1 class="title">🍺 Add New Bet</h1>
+        <p class="subtitle">Put some pints on the line</p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <form id="addBetForm" class="bet-card">
+            <!-- Bet Condition -->
+            <div class="form-group">
+                <label for="condition" class="form-label">Bet Condition</label>
+                <textarea
+                    id="condition"
+                    class="form-textarea"
+                    placeholder="e.g., Arsenal will finish in the top 4 this season"
+                    required
+                ></textarea>
+                <small style="color: var(--cream); opacity: 0.8; font-size: 0.875rem;">
+                    Describe what will happen if the condition is TRUE
+                </small>
+            </div>
+
+            <!-- Notes/Clarifications -->
+            <div class="form-group">
+                <label for="notes" class="form-label">Notes / Clarifications (Optional)</label>
+                <textarea
+                    id="notes"
+                    class="form-textarea"
+                    placeholder="e.g., Premier League only - cups don't count"
+                    style="min-height: 80px;"
+                ></textarea>
+                <small style="color: var(--cream); opacity: 0.8; font-size: 0.875rem;">
+                    Add any additional conditions, edge cases, or clarifications
+                </small>
+            </div>
+
+            <!-- Due Date -->
+            <div class="form-group">
+                <label for="due_date" class="form-label">Due Date</label>
+                <input
+                    type="date"
+                    id="due_date"
+                    class="form-input"
+                    required
+                />
+            </div>
+
+            <!-- Dylan's Side -->
+            <div class="form-group">
+                <label class="form-label">Dylan's Position</label>
+                <div class="form-radio-group">
+                    <label class="form-radio-label">
+                        <input type="radio" name="dylan_side" value="true" required />
+                        TRUE (Dylan thinks it will happen)
+                    </label>
+                    <label class="form-radio-label">
+                        <input type="radio" name="dylan_side" value="false" required />
+                        FALSE (Dylan thinks it won't happen)
+                    </label>
+                </div>
+                <small style="color: var(--cream); opacity: 0.8; font-size: 0.875rem; display: block; margin-top: 0.5rem;">
+                    Poppet automatically takes the opposite side
+                </small>
+            </div>
+
+            <!-- Stakes -->
+            <div class="form-group">
+                <label class="form-label">Stakes (Pints of Guinness)</label>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 0.5rem;">
+                    <div>
+                        <label for="dylan_pints" style="display: block; margin-bottom: 0.5rem; color: var(--cream); font-size: 0.875rem;">
+                            Dylan wins if correct:
+                        </label>
+                        <input
+                            type="number"
+                            id="dylan_pints"
+                            class="form-input"
+                            placeholder="2.0"
+                            step="0.5"
+                            min="0.5"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label for="poppet_pints" style="display: block; margin-bottom: 0.5rem; color: var(--cream); font-size: 0.875rem;">
+                            Poppet wins if correct:
+                        </label>
+                        <input
+                            type="number"
+                            id="poppet_pints"
+                            class="form-input"
+                            placeholder="1.0"
+                            step="0.5"
+                            min="0.5"
+                            required
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-group" style="margin-top: 2rem;">
+                <button type="submit" class="btn btn-primary btn-full">
+                    Create Bet 🍺
+                </button>
+            </div>
+
+            <div class="form-group" style="margin-top: 1rem; margin-bottom: 0;">
+                <a href="index.html" class="btn btn-secondary btn-full">
+                    Cancel
+                </a>
+            </div>
+        </form>
+
+        <!-- Example Card -->
+        <div class="bet-card" style="margin-top: 2rem; border-style: dashed; opacity: 0.7;">
+            <div style="text-align: center; margin-bottom: 1rem;">
+                <span class="badge badge-active">Example</span>
+            </div>
+            <div class="bet-condition">Arsenal will finish in the top 4 this season</div>
+            <div class="bet-stakes">
+                <div class="stake">
+                    <div class="stake-name">Dylan</div>
+                    <div class="stake-pints">2.0 🍺</div>
+                    <div class="stake-side">TRUE</div>
+                </div>
+                <div class="stake">
+                    <div class="stake-name">Poppet</div>
+                    <div class="stake-pints">1.0 🍺</div>
+                    <div class="stake-side">FALSE</div>
+                </div>
+            </div>
+            <small style="color: var(--cream); opacity: 0.8; font-size: 0.875rem; display: block; text-align: center; margin-top: 1rem;">
+                If Arsenal finish top 4, Dylan wins 2 pints.<br/>
+                If Arsenal don't finish top 4, Poppet wins 1 pint.
+            </small>
+        </div>
+    </main>
+
+    <!-- Calendar Choice Modal -->
+    <div id="calendarModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">📅 Add to Calendar</h2>
+                <p class="modal-subtitle" id="calendarModalCondition"></p>
+            </div>
+
+            <div class="resolve-buttons" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <button class="resolve-button resolve-button-true" onclick="confirmCalendarChoice('ics')" style="background: var(--toucan-blue); padding: 1rem;">
+                    <span class="resolve-button-label" style="font-size: 1rem;">Download .ics</span>
+                    <span class="resolve-button-sublabel" style="font-size: 0.75rem;">iOS, Outlook, Apple</span>
+                </button>
+                <button class="resolve-button resolve-button-false" onclick="confirmCalendarChoice('google')" style="background: var(--toucan-yellow); color: var(--guinness-dark); padding: 1rem;">
+                    <span class="resolve-button-label" style="font-size: 1rem;">Google Calendar</span>
+                    <span class="resolve-button-sublabel" style="font-size: 0.75rem;">Opens in new tab</span>
+                </button>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-secondary btn-full" onclick="closeCalendarModal()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // Protect this page - landlords only
+        if (!isLandlord()) {
+            alert('Landlord mode required to add bets.\n\nRegular visitors can view bets without logging in.');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guinness Bet Tracker - Active Bets</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Archivo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <!-- Supabase JavaScript Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="index.html" class="nav-link active">Active Bets</a>
+        <a href="add.html" class="nav-link landlord-only">Add Bet</a>
+        <a href="history.html" class="nav-link">History</a>
+        <a href="login.html" class="nav-link" id="landlordModeLink">Landlord Mode</a>
+        <button id="logoutBtn" class="nav-link" onclick="logout()" style="background: none; border: none; cursor: pointer; color: var(--toucan-red);">Logout</button>
+    </nav>
+
+    <!-- Header -->
+    <header class="header">
+        <h1 class="title">🍺 Active Bets</h1>
+        <p class="subtitle">Pints on the line</p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <div id="activeBetsList" class="bets-list">
+            <!-- Bet cards will be injected here by JavaScript -->
+        </div>
+
+        <div id="emptyState" class="empty-state" style="display: none;">
+            <p>No active bets right now.</p>
+            <p>Time to make things interesting!</p>
+            <a href="add.html" class="btn btn-primary">Place a Bet</a>
+        </div>
+    </main>
+
+    <!-- Calendar Choice Modal -->
+    <div id="calendarModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">📅 Add to Calendar</h2>
+                <p class="modal-subtitle" id="calendarModalCondition"></p>
+            </div>
+
+            <div class="resolve-buttons" style="grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <button class="resolve-button resolve-button-true" onclick="confirmCalendarChoice('ics')" style="background: var(--toucan-blue); padding: 1rem;">
+                    <span class="resolve-button-label" style="font-size: 1rem;">Download .ics</span>
+                    <span class="resolve-button-sublabel" style="font-size: 0.75rem;">iOS, Outlook, Apple</span>
+                </button>
+                <button class="resolve-button resolve-button-false" onclick="confirmCalendarChoice('google')" style="background: var(--toucan-yellow); color: var(--guinness-dark); padding: 1rem;">
+                    <span class="resolve-button-label" style="font-size: 1rem;">Google Calendar</span>
+                    <span class="resolve-button-sublabel" style="font-size: 0.75rem;">Opens in new tab</span>
+                </button>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-secondary btn-full" onclick="closeCalendarModal()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Resolve Bet Modal -->
+    <div id="resolveModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Resolve Bet 🍺</h2>
+                <p class="modal-subtitle" id="resolveModalCondition"></p>
+            </div>
+
+            <div id="resolveModalNotes" class="bet-notes" style="display: none; margin-bottom: 1.5rem;"></div>
+
+            <div class="resolve-question">
+                <p style="color: var(--cream-light); font-size: 1.125rem; text-align: center; margin-bottom: 1.5rem; font-weight: 600;">
+                    Did this condition come TRUE?
+                </p>
+            </div>
+
+            <div class="resolve-buttons">
+                <button class="resolve-button resolve-button-true" onclick="confirmResolve(true)">
+                    <span class="resolve-button-label">TRUE</span>
+                    <span class="resolve-button-sublabel" id="resolveWinnerTrue"></span>
+                </button>
+                <button class="resolve-button resolve-button-false" onclick="confirmResolve(false)">
+                    <span class="resolve-button-label">FALSE</span>
+                    <span class="resolve-button-sublabel" id="resolveWinnerFalse"></span>
+                </button>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-secondary btn-full" onclick="closeResolveModal()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "Guinness Bet Tracker",
+  "short_name": "Guinness Bets",
+  "description": "Track beer-wagered bets between Dylan and Poppet",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#2e211b",
+  "theme_color": "#C82A2C",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

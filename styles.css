@@ -1,0 +1,665 @@
+/* ================================
+   GUINNESS BET TRACKER STYLES
+   Design: Pub Chalkboard Meets Modern UI
+   ================================ */
+
+/* ================================
+   CSS VARIABLES (Color Palette)
+   ================================ */
+:root {
+    /* Guinness Colors */
+    --guinness-black: #2e211b;
+    --guinness-dark: #3d2e26;
+    --cream: #f4f1de;
+    --cream-light: #fffef7;
+    --pure-white: #ffffff;
+
+    /* Toucan Accent Colors (from actual Guinness ads) */
+    --toucan-yellow: #EEBD4C;
+    --toucan-red: #C82A2C;
+    --toucan-red-hover: #d63a3c;
+    --toucan-blue: #365876;
+    --toucan-olive: #808C45;
+
+    /* Semantic Colors */
+    --bg-primary: var(--guinness-black);
+    --bg-secondary: var(--guinness-dark);
+    --text-primary: var(--cream);
+    --text-secondary: var(--cream-light);
+    --accent-primary: var(--toucan-red);
+    --accent-secondary: var(--toucan-yellow);
+
+    /* Spacing */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+
+    /* Typography */
+    --font-display: 'Bowlby One', sans-serif;
+    --font-body: 'Archivo', sans-serif;
+}
+
+/* ================================
+   RESET & BASE STYLES
+   ================================ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding-bottom: 2rem;
+}
+
+/* ================================
+   NAVIGATION
+   ================================ */
+.nav {
+    display: flex;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    background-color: #f5f5f5;
+    border-bottom: 2px solid var(--accent-primary);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-link {
+    flex: 1;
+    text-align: center;
+    padding: var(--space-sm);
+    text-decoration: none;
+    color: var(--guinness-black);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s ease;
+    border: 2px solid transparent;
+}
+
+.nav-link:hover {
+    background-color: rgba(200, 42, 44, 0.12);
+    border-color: var(--accent-primary);
+}
+
+.nav-link.active {
+    background-color: var(--accent-primary);
+    color: var(--pure-white);
+    font-weight: 700;
+}
+
+/* ================================
+   HEADER
+   ================================ */
+.header {
+    text-align: center;
+    padding: var(--space-lg) var(--space-md);
+    background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+}
+
+.title {
+    font-family: var(--font-display);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--cream-light);
+    margin-bottom: var(--space-xs);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: var(--accent-secondary);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ================================
+   CONTAINER
+   ================================ */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--space-md);
+}
+
+/* ================================
+   BETS LIST
+   ================================ */
+.bets-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+/* ================================
+   BET CARD
+   ================================ */
+.bet-card {
+    background-color: var(--bg-secondary);
+    border: 2px solid var(--cream);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bet-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.bet-condition {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--cream-light);
+    margin-bottom: var(--space-md);
+    line-height: 1.4;
+}
+
+.bet-notes {
+    font-size: 0.9rem;
+    color: var(--cream);
+    opacity: 0.85;
+    font-style: italic;
+    margin-bottom: var(--space-md);
+    padding: var(--space-sm);
+    background-color: rgba(255, 255, 255, 0.03);
+    border-left: 3px solid var(--toucan-yellow);
+    border-radius: var(--radius-sm);
+    line-height: 1.5;
+}
+
+.bet-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+    padding: var(--space-sm);
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-sm);
+}
+
+.bet-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.bet-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--accent-secondary);
+    font-weight: 600;
+}
+
+.bet-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--cream-light);
+}
+
+.bet-stakes {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+}
+
+.stake {
+    flex: 1;
+    padding: var(--space-sm);
+    background-color: rgba(200, 42, 44, 0.1);
+    border: 2px solid var(--accent-primary);
+    border-radius: var(--radius-sm);
+    text-align: center;
+}
+
+.stake-name {
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--accent-secondary);
+    margin-bottom: 0.25rem;
+}
+
+.stake-pints {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--cream-light);
+}
+
+.stake-side {
+    font-size: 0.75rem;
+    color: var(--cream);
+    margin-top: 0.25rem;
+}
+
+.bet-actions {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+/* ================================
+   BUTTONS
+   ================================ */
+.btn {
+    padding: var(--space-sm) var(--space-md);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn-primary {
+    background-color: var(--accent-primary);
+    color: var(--pure-white);
+    border: 2px solid var(--accent-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--toucan-red-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(200, 42, 44, 0.3);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--cream);
+    border: 2px solid var(--cream);
+}
+
+.btn-secondary:hover {
+    background-color: rgba(244, 241, 222, 0.1);
+    border-color: var(--cream-light);
+    color: var(--cream-light);
+}
+
+.btn-full {
+    width: 100%;
+}
+
+/* ================================
+   EMPTY STATE
+   ================================ */
+.empty-state {
+    text-align: center;
+    padding: var(--space-xl);
+    background-color: var(--bg-secondary);
+    border: 2px dashed var(--cream);
+    border-radius: var(--radius-md);
+    margin-top: var(--space-lg);
+}
+
+.empty-state p {
+    font-size: 1.125rem;
+    color: var(--cream);
+    margin-bottom: var(--space-sm);
+}
+
+.empty-state p:first-child {
+    font-weight: 700;
+    color: var(--cream-light);
+    font-size: 1.25rem;
+}
+
+/* ================================
+   BADGES
+   ================================ */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-active {
+    background-color: var(--toucan-yellow);
+    color: var(--guinness-black);
+}
+
+.badge-resolved {
+    background-color: var(--cream);
+    color: var(--guinness-black);
+}
+
+.badge-paid {
+    background-color: var(--toucan-blue);
+    color: var(--pure-white);
+}
+
+.badge-unpaid {
+    background-color: var(--toucan-red);
+    color: var(--pure-white);
+}
+
+/* ================================
+   FORMS (for add.html)
+   ================================ */
+.form-group {
+    margin-bottom: var(--space-md);
+}
+
+.form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--accent-secondary);
+    margin-bottom: var(--space-xs);
+}
+
+.form-input,
+.form-textarea,
+.form-select {
+    width: 100%;
+    padding: var(--space-sm);
+    background-color: var(--bg-secondary);
+    border: 2px solid var(--cream);
+    border-radius: var(--radius-sm);
+    color: var(--cream-light);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.2);
+}
+
+.form-textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-radio-group {
+    display: flex;
+    gap: var(--space-md);
+}
+
+.form-radio-label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--cream);
+}
+
+.form-radio-label input[type="radio"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--accent-primary);
+    cursor: pointer;
+}
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+@media (max-width: 640px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .bet-details {
+        grid-template-columns: 1fr;
+    }
+
+    .bet-stakes {
+        flex-direction: column;
+    }
+
+    .nav-link {
+        font-size: 0.8rem;
+        padding: 0.75rem 0.5rem;
+    }
+}
+
+/* ================================
+   PAYMENT MODAL
+   ================================ */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: var(--space-md);
+}
+
+.modal-overlay.hidden {
+    display: none;
+}
+
+.modal-content {
+    background-color: var(--bg-secondary);
+    border: 3px solid var(--toucan-yellow);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    margin-bottom: var(--space-md);
+}
+
+.modal-title {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    color: var(--cream-light);
+    margin-bottom: var(--space-sm);
+}
+
+.modal-subtitle {
+    font-size: 0.9rem;
+    color: var(--cream);
+    opacity: 0.8;
+    font-style: italic;
+}
+
+.payment-info {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: var(--space-md);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-lg);
+}
+
+.payment-info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--space-xs);
+    font-size: 1rem;
+}
+
+.payment-info-row:last-child {
+    margin-bottom: 0;
+    padding-top: var(--space-sm);
+    border-top: 2px solid var(--toucan-yellow);
+    font-weight: 700;
+}
+
+.payment-info-label {
+    color: var(--cream);
+}
+
+.payment-info-value {
+    color: var(--cream-light);
+    font-weight: 600;
+}
+
+.payment-counter {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+}
+
+.payment-amount {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    color: var(--toucan-yellow);
+    margin: var(--space-md) 0;
+    font-weight: 700;
+}
+
+.payment-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+}
+
+.payment-button {
+    padding: var(--space-md);
+    background-color: var(--bg-primary);
+    border: 2px solid var(--cream);
+    border-radius: var(--radius-sm);
+    color: var(--cream-light);
+    font-size: 1.25rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.payment-button:hover {
+    background-color: var(--toucan-red);
+    border-color: var(--toucan-red);
+    color: var(--pure-white);
+    transform: translateY(-2px);
+}
+
+.payment-button:active {
+    transform: translateY(0);
+}
+
+.modal-actions {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+}
+
+/* ================================
+   RESOLVE MODAL
+   ================================ */
+.resolve-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.resolve-button {
+    padding: var(--space-lg) var(--space-md);
+    background-color: var(--bg-primary);
+    border: 3px solid var(--cream);
+    border-radius: var(--radius-md);
+    color: var(--cream-light);
+    font-family: var(--font-body);
+    font-size: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.resolve-button-label {
+    font-family: var(--font-display);
+    font-size: 2rem;
+}
+
+.resolve-button-sublabel {
+    font-size: 0.875rem;
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+.resolve-button-true:hover {
+    background-color: var(--toucan-blue);
+    border-color: var(--toucan-blue);
+    color: var(--pure-white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(54, 88, 118, 0.4);
+}
+
+.resolve-button-false:hover {
+    background-color: var(--toucan-red);
+    border-color: var(--toucan-red);
+    color: var(--pure-white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(200, 42, 44, 0.4);
+}
+
+.resolve-button:active {
+    transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+    .resolve-buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .resolve-button {
+        padding: var(--space-md);
+    }
+
+    .resolve-button-label {
+        font-size: 1.75rem;
+    }
+}
+
+/* ================================
+   UTILITY CLASSES
+   ================================ */
+.text-center {
+    text-align: center;
+}
+
+.mt-sm { margin-top: var(--space-sm); }
+.mt-md { margin-top: var(--space-md); }
+.mt-lg { margin-top: var(--space-lg); }
+
+.mb-sm { margin-bottom: var(--space-sm); }
+.mb-md { margin-bottom: var(--space-md); }
+.mb-lg { margin-bottom: var(--space-lg); }
