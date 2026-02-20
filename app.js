@@ -295,7 +295,7 @@ async function loadActiveBets() {
 
     if (error) {
         console.error('Error loading active bets:', error);
-        return [];
+        throw error;
     }
 
     return data || [];
@@ -343,7 +343,16 @@ async function renderActiveBets() {
     // Show loading state
     container.innerHTML = '<div style="text-align: center; color: var(--cream);">Loading bets...</div>';
 
-    const activeBets = await loadActiveBets();
+    let activeBets;
+    try {
+        activeBets = await loadActiveBets();
+    } catch (error) {
+        container.innerHTML = `<div style="text-align: center; color: var(--cream); padding: 2rem;">
+            <p style="font-weight: 700; margin-bottom: 0.5rem;">Failed to load bets.</p>
+            <p style="font-size: 0.875rem; opacity: 0.7;">${error.message || 'Unknown error — check the console for details.'}</p>
+        </div>`;
+        return;
+    }
 
     if (activeBets.length === 0) {
         container.style.display = 'none';
@@ -604,6 +613,7 @@ async function confirmResolve(outcome) {
 
     // Refresh the view
     await renderActiveBets();
+    updateUIForAuth();
 }
 
 // ================================
@@ -709,6 +719,7 @@ async function confirmPayment() {
 
     // Refresh the view
     await renderResolvedBets();
+    updateUIForAuth();
 }
 
 // ================================
@@ -805,13 +816,14 @@ function handleAddBetForm() {
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('🍺 Guinness Bet Tracker loading...');
 
-    // Update UI based on auth status
-    updateUIForAuth();
-
     // Render appropriate view based on current page
     await renderActiveBets();
     await renderResolvedBets();
     handleAddBetForm();
+
+    // Update UI based on auth status — called after rendering so that
+    // dynamically generated landlord-only elements are also processed.
+    updateUIForAuth();
 
     console.log('✅ App ready!');
 });
