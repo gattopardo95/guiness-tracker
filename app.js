@@ -10,7 +10,7 @@ const SUPABASE_URL = 'https://fuolifxojezvplkquniy.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ1b2xpZnhvamV6dnBsa3F1bml5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA3ODcyODcsImV4cCI6MjA3NjM2MzI4N30.TK4kh8BCX2kP2xORrhzp531lgVrybd0wV-7v8HpNLS8';
 
 // Initialize Supabase client
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 console.log('✅ Supabase client initialized');
 
@@ -287,7 +287,7 @@ function formatDate(dateString) {
 // LOAD BETS FROM SUPABASE
 // ================================
 async function loadActiveBets() {
-    const { data, error } = await supabase
+    const { data, error } = await db
         .from('bets')
         .select('*')
         .eq('status', 'active')
@@ -302,7 +302,7 @@ async function loadActiveBets() {
 }
 
 async function loadResolvedBets() {
-    const { data, error } = await supabase
+    const { data, error } = await db
         .from('bets')
         .select('*')
         .eq('status', 'resolved')
@@ -317,7 +317,7 @@ async function loadResolvedBets() {
 }
 
 async function getBetById(id) {
-    const { data, error } = await supabase
+    const { data, error } = await db
         .from('bets')
         .select('*')
         .eq('id', id)
@@ -587,7 +587,7 @@ async function confirmResolve(outcome) {
     }
 
     // Update bet in Supabase
-    const { error } = await supabase
+    const { error } = await db
         .from('bets')
         .update({
             status: 'resolved',
@@ -692,7 +692,7 @@ async function confirmPayment() {
     const newPintsPaid = bet.pints_paid + currentPaymentAmount;
 
     // Update bet in Supabase
-    const { error } = await supabase
+    const { error } = await db
         .from('bets')
         .update({
             pints_paid: newPintsPaid
@@ -774,7 +774,7 @@ function handleAddBetForm() {
         };
 
         // Insert into Supabase
-        const { data, error } = await supabase
+        const { data, error } = await db
             .from('bets')
             .insert([newBet])
             .select();
