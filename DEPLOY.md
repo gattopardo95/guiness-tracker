@@ -67,6 +67,30 @@ netlify open
 
 ---
 
+## Netlify Configuration
+
+**⚠️ TODO: Set up redirects in Netlify**
+
+To ensure the app works correctly (especially for direct navigation to pages like `/history.html` or `/add.html`), you need to configure redirects in Netlify:
+
+**Option 1: Create `_redirects` file in project root:**
+```
+# Redirect all routes to support SPA-like behavior
+/*    /index.html   200
+```
+
+**Option 2: Configure in Netlify dashboard:**
+1. Go to https://app.netlify.com/sites/guiness-bets/settings
+2. Build & deploy → Post processing → Redirects
+3. Add redirect rule: `/* /index.html 200`
+
+**Why this matters:**
+- Without redirects, refreshing on a specific page may show a 404
+- Ensures clean URLs work properly
+- Supports PWA offline functionality
+
+---
+
 ## Troubleshooting
 
 **If deploy fails with "not linked" error:**
